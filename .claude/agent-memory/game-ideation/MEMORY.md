@@ -57,6 +57,17 @@
   - Quest Journal tracks all active Quests + Challenges with source metadata and Narrative Branch outcome logs. Full UI design TBD.
   - Narrative Branches can alter enemy spawns, room availability, and loot — floor state is materially different by branch taken.
 
+- **Combat System**: full section written. Status: In Design. Key decisions locked:
+  - Combat feel arc: Floor 1 = deliberate/Hades-like. Late-run = fluid/Dead Cells momentum earned through progression.
+  - Composure: discrete point pool (base 3–5 TBD). Only defensive actions cost it. Attacks always free. Dexterity affects max and regen.
+  - Bigger hits cost MORE Composure points to Block (scaling, not flat).
+  - Stagger: state entered when Blocking at 0 Composure. Damage still blocked. Player cannot act for a brief window. NOT the same as Knocked Down. A hit landing during Stagger deals HP damage.
+  - Three defensive actions: Block (variable Composure cost, full damage negation), Dodge (flat cost, i-frames + movement burst), Parry (flat cost, timing window, negates damage + enemy stagger + Composure refund on success). All three count as Combo hits.
+  - Combo: builds on attacks and ALL defensive actions. Breaks only when HP damage is dealt (no defence, or hit during Stagger). Drives Current Entertainment → Viewer generation.
+  - Enemy Tags: Behaviour (visible), Vulnerability/Resistance (hidden, revealed by gear/scrolls/NPCs), Masked Behaviour (revealed on first trigger).
+  - Floor structure: thematic compositions with varied spatial types (open, corridor, rooms, arenas) — not random tile grids.
+  - Bypassing: valid stealth/CC build option. Costs: no XP, no drops, no Viewer Spikes, lower Plan Adherence. Not the optimised path.
+
 ## Rejected Ideas
 - (none yet)
 
@@ -77,3 +88,9 @@
 - Quests: floor count per floor, cross-floor chaining, ignore threshold UI signal
 - Challenges: partial completion states vs binary, count per floor
 - Quest Journal: UI surfacing method (pause menu, always-visible tracker, phone UI)
+- Combat — Composure point count: working range 3–5, needs tuning
+- Combat — Stagger recovery: player-triggered vs time-based TBD
+- Combat — Stagger → Knocked Down chaining: unresolved
+- Combat — Stealth detection model: full system TBD (separate design topic)
+- Combat — Combo multiplier curve: rate and acceleration TBD
+- Combat — Block cost scaling map: small/medium/heavy cost values TBD
