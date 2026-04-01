@@ -36,7 +36,3 @@ GitHub Issues (work items) → implemented in crawl-craft-game repo
 - GDD section status tags: `Idea → In Design → Approved → Implemented`
 - Vertical slices — each PRD and work issue should be thin but complete end-to-end.
 - The game code repo is `crawl-craft-game` (Godot 4, set up separately).
-
-## GitHub setup
-
-Set `GITHUB_TOKEN` env var for issue-creation skills. Repo is auto-detected from `git remote`.

@@ -34,6 +34,19 @@
 - Follower crystallisation scaling: scales with existing Follower count (famous = better conversion), not flat %.
 - Player character: single design confirmed for initial release. Stat-driven appearance changes over cosmetic variety.
 
+- **Build System**: full section written. Status: In Design. Key decisions:
+  - Gear slots: Weapon (tagged item, not locked slot), Tome (spell loadout), Head (hybrid), Gloves (utility/combat), Belt (2–4 quick-cast slots by tier), Boots (movement/combat), Jewelry (Magical Affinity gated, effects discovered through use), Chest/Legs (cosmetic/EV, low cognitive load)
+  - Item taxonomy: Weapons (tagged), Consumables (inventory or quick-cast), Scrolls (no requirements, one-use), Crafted items (materials system TBD)
+  - Spell tiers: Minor (many charges), Major (few), Cataclysmic (1 or 0). Charges reset on floor transition.
+  - Overcast costs are FLAT per tier. Cannot Overcast without enough free Viewers to cover full cost. No fractional payment.
+  - Viewer reservation: lock non-Followers first, then Followers if needed. Release: restore reserved Followers first, then apply remaining crystallisation to new Followers.
+  - Non-spell active abilities: cooldown-based, no Viewer cost. Contrast with tome spells (heavy/economic) is intentional.
+  - Boons: umbrella for all run-permanent modifiers. Pool weighted toward current build tags/Sponsor — nudges identity, doesn't lock in.
+  - Curses: always double-edged (negative + upside). Player-facing, not enemy-facing. AI's authored drama tool.
+  - Synergy engine: keyword tags on all components. 3+ tag interactions = jackpot experience target.
+  - Magical Affinity: flagged OPEN. Int + Wis derived, thresholds and brute-force unlock TBD.
+  - Bare fists = run start weapon. No class selection confirmed.
+
 ## Rejected Ideas
 - (none yet)
 
@@ -46,3 +59,9 @@
 - Whether AI has meta-progression memory across runs
 - Sponsor allegiance visual effects on character
 - Persistent character identity across runs
+- Magical Affinity: Int+Wis derivation, thresholds, brute-force unlock rate (Build System)
+- Weapon slot: dedicated slot vs inventory/belt managed (Build System)
+- Spell cost flat values per tier (Build System — implementation tuning)
+- Chest/Legs: confirm cosmetic-only vs occasional synergy exceptions (Build System)
+- Crafting system: full system TBD (separate spar)
+- Quests and challenges: full definition TBD (separate spar)
