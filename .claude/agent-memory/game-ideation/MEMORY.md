@@ -47,6 +47,16 @@
   - Magical Affinity: flagged OPEN. Int + Wis derived, thresholds and brute-force unlock TBD.
   - Bare fists = run start weapon. No class selection confirmed.
 
+- **Quests & Challenges**: full section written. Status: In Design. Key decisions locked:
+  - Only way to fail a Quest = ignoring it entirely. No mid-attempt fail state.
+  - Three Challenge types: Standalone (independent event), Attached (modifier on a Quest, decoupled from Quest success), Narrative Branch (special Attached — routes Quest to different consequence, both outcomes valid, both resolve the Quest).
+  - Narrative Branches are AI's deliberate storytelling tool — used sparingly, not as routine difficulty. Example: stop ritual = demon never spawns; fail = demon spawns, fight or flee. Either way, Quest resolves.
+  - Sponsor Challenges = Challenges with Sponsor as source field. Completing = primary Crescendo for that Sponsor contract.
+  - Both Quest and Challenge completion = Crescendo triggers.
+  - AI Mood Plan Adherence: attempting Quests satisfies it. Ignoring entirely is what angers the AI.
+  - Quest Journal tracks all active Quests + Challenges with source metadata and Narrative Branch outcome logs. Full UI design TBD.
+  - Narrative Branches can alter enemy spawns, room availability, and loot — floor state is materially different by branch taken.
+
 ## Rejected Ideas
 - (none yet)
 
@@ -64,4 +74,6 @@
 - Spell cost flat values per tier (Build System — implementation tuning)
 - Chest/Legs: confirm cosmetic-only vs occasional synergy exceptions (Build System)
 - Crafting system: full system TBD (separate spar)
-- Quests and challenges: full definition TBD (separate spar)
+- Quests: floor count per floor, cross-floor chaining, ignore threshold UI signal
+- Challenges: partial completion states vs binary, count per floor
+- Quest Journal: UI surfacing method (pause menu, always-visible tracker, phone UI)
