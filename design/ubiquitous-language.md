@@ -141,6 +141,21 @@
 
 ---
 
+## Movement
+
+| Term | Definition | Aliases to avoid |
+|------|------------|-----------------|
+| **Dash** | The single active movement verb beyond walking. Behaviour entirely defined by equipped Boots. All Dashes cost Composure — even traversal outside combat. | Sprint, Roll (Roll is a specific Dash type), Dodge (Dodge is a use-case of Dash, not a synonym) |
+| **Defensive Dash** | A Dash type that grants i-frames during the dash. Allows the player to avoid incoming hits. Types: Burst, Roll, Phase. | Safe dash, Evasion dash |
+| **Offensive Dash** | A Dash type that replaces i-frames with an attack or CC effect. The player has no dodge escape — only Block and Parry for defence. Types: Stomp, Lunge, Kick/variant. | Attack dash (use Offensive Dash) |
+| **Burst Dash** | Defensive Dash. Short range, reliable i-frames, 1 Composure. The baseline Dash — readable and forgiving. | Basic dash |
+| **Roll Dash** | Defensive Dash. Longer i-frame window than Burst, directional commitment (fixed arc). 1 Composure. | Barrel roll |
+| **Phase Dash** | Defensive Dash. Long-range teleport to a targeted point. Very brief i-frames (blink-duration only). 2 Composure. | Teleport dash, Blink |
+| **Stomp** | Offensive Dash. Single-target slam — deals damage and applies Knockdown or heavy Stagger. 2 Composure. No i-frames. | Ground slam (Stomp is the canonical term) |
+| **Lunge** | Offensive Dash. Long-range gap closer — deals a small hit, no CC. 1 Composure. No i-frames. | Charge, Gap close |
+
+---
+
 ## Combat
 
 | Term | Definition | Aliases to avoid |
@@ -219,6 +234,10 @@
 - A **Tome** contains **Spells**; each **Spell** has **Spell Charges**; depleted **Spells** can be **Overcast**
 - **Boons** are the result of **Level-Up** choices or **Sponsor Challenge** rewards; they install **Active Abilities**, **Passive Abilities**, or stat boosts
 - **Tags** on gear, weapons, and abilities are the connective tissue that **Boons** reference to create synergies
+- **Dash** draws from the same **Composure** pool as all defensive actions — movement and defence compete for the same resource
+- **Boots** own the **Dash** type; **Boons** extend behaviour on top but never replace the base type
+- **Defensive Dashes** grant i-frames; **Offensive Dashes** replace i-frames with attack/CC — equipping Offensive Boots means **Block** and **Parry** are the player's only defensive options
+- **Dexterity** governs **Composure** max and regen, making it the primary stat for mobile builds
 - **Composure** is the shared cost resource for **Block**, **Dodge**, and **Parry**; attacks are always free
 - A successful **Parry** applies **Enemy Stagger**; a **Block** at 0 **Composure** applies **Player Stagger** — these are distinct outcomes of distinct actions
 - **Block**, **Dodge**, and **Parry** each count as a **Combo Hit**; unblocked HP damage triggers **Combo Break**
