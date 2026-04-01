@@ -141,14 +141,38 @@
 
 ---
 
-## Bosses & Combat
+## Combat
+
+| Term | Definition | Aliases to avoid |
+|------|------------|-----------------|
+| **Composure** | The player's discrete defensive resource pool. Not a bar — a point count (base 3–5, TBD). Only defensive actions cost Composure; attacks are always free. Regenerates passively. Affected by Dexterity and gear. | Stamina, Defense points, Guard |
+| **Block** | A defensive action that fully negates incoming damage at the cost of Composure points. Cost scales with hit size (bigger hits cost more). Counts as a Combo Hit. At 0 Composure: still blocks damage but causes Player Stagger. | Guard, Shield |
+| **Dodge** | A defensive action that costs 1 Composure (base). Grants brief I-frames and a movement burst. Counts as a Combo Hit. | Roll, Evade, Dash (dash is movement, dodge is defensive) |
+| **Parry** | A defensive action that costs 1 Composure (base) and requires a precise timing window. On success: fully negates damage, refunds Composure spent, and applies Enemy Stagger. Counts as a Combo Hit. | Counter, Deflect |
+| **I-frames** | Invincibility frames — a brief window of damage immunity granted by Dodge. | Invincibility window |
+| **Player Stagger** | The vulnerability state entered when Blocking with 0 Composure. Damage is still blocked but the player cannot act for a brief window. A hit landing during Player Stagger deals HP damage directly and breaks Combo. Distinct from Enemy Stagger. | Stagger (always specify Player or Enemy) |
+| **Enemy Stagger** | A brief vulnerability state applied to an enemy by a successful Parry. Opens an attack window. Distinct from Player Stagger. | Stagger (always specify Player or Enemy) |
+| **Combo** | A streak of consecutive hits (attacks and defensive actions) without taking unblocked HP damage. Directly feeds Current Entertainment — higher Combo = more Viewer generation. | Hit streak, Multiplier |
+| **Combo Hit** | Any action that extends a Combo: attacks, Blocks, Dodges, and Parries all count. The player is performing while defending. | Hit, Strike |
+| **Combo Break** | When HP damage is dealt to the player (hit with no defence, or hit during Player Stagger). Resets the Current Entertainment contribution from the Combo. | Combo reset, Combo end |
+| **Bypass** | Avoiding enemy encounters without fighting, enabled by stealth builds or CC Consumables. Costs: no XP, no drops, no Viewer Spikes, lower Plan Adherence. A valid trade-off, not a free path. | Skip, Sneak past (use Bypass as the canonical term) |
+| **Stealth** | A build axis enabling enemies to be bypassed if the player is below the enemy's Detection Threshold. Full system TBD. | Sneak, Invisibility |
+| **Detection Threshold** | An enemy's sensitivity to player presence. Stealth builds reduce the player's detection profile below this value to enable Bypass. Full detection model TBD. | Aggro range, Detection radius |
+| **CC (Crowd Control)** | Consumables or abilities that neutralise a group of enemies temporarily (e.g. sleep bomb, sleep spell), enabling Bypass or creating an attack opportunity. | Disable, Stun (stun is a specific CC type) |
+| **Behaviour Tag** | An enemy Tag describing how it fights. Always visually legible — a flanker moves like a flanker before it flanks. No identification gear needed. | Enemy type, AI tag |
+| **Vulnerability/Resistance Tag** | A hidden enemy Tag describing what it is weak or resistant to. Not displayed by default. Revealed by identification gear (e.g. Goggles), identification scrolls, or NPC services. | Weakness, Elemental tag |
+| **Masked Behaviour Tag** | A hidden enemy behaviour that is only revealed the first time that behaviour triggers. After first encounter, it becomes known. Designed to teach, not to punish repeatedly. | Hidden mechanic, Secret attack |
+
+---
+
+## Bosses & Enemies
 
 | Term | Definition | Aliases to avoid |
 |------|------------|-----------------|
 | **Boss** | An optional, named enemy encounter on a floor. Solo/party content. Killing a Boss triggers a Crescendo. | Elite boss, Floor boss |
 | **Mega Boss** | A large-scale boss encounter that triggers an Open Queue alert to other players. Shared-world event; distinct in scale and design from standard Bosses. | World boss, Raid boss, Event boss |
 | **Mini-boss** | A mid-floor enemy capable of dropping the Key. Smaller in scope than a Boss. | Elite enemy, Champion |
-| **Knocked Down** | The temporary downed state entered on first death before true death. Opens a window for Self-Revive (spending Followers) or teammate revive (co-op, 30-second window). | Downed, Dead, Defeated |
+| **Knocked Down** | The temporary downed state entered on first death before true death. Opens a window for Self-Revive (spending Followers) or teammate revive (co-op, 30-second window). Distinct from Player Stagger. | Downed, Dead, Defeated |
 | **True Death** | Dying while in the Knocked Down state with no revive. Ends the run and returns the player to floor 1. | Death, Permadeath, Run over |
 | **Self-Revive** | Spending Followers to stand up from the Knocked Down state. Trades long-term economic power for immediate survival. | Revive (ambiguous in co-op context), Self-res |
 | **Overkill** | Dealing significantly more damage than required to kill an enemy. Generates a Viewer Spike scaled by EV. | Burst kill |
@@ -195,6 +219,11 @@
 - A **Tome** contains **Spells**; each **Spell** has **Spell Charges**; depleted **Spells** can be **Overcast**
 - **Boons** are the result of **Level-Up** choices or **Sponsor Challenge** rewards; they install **Active Abilities**, **Passive Abilities**, or stat boosts
 - **Tags** on gear, weapons, and abilities are the connective tissue that **Boons** reference to create synergies
+- **Composure** is the shared cost resource for **Block**, **Dodge**, and **Parry**; attacks are always free
+- A successful **Parry** applies **Enemy Stagger**; a **Block** at 0 **Composure** applies **Player Stagger** — these are distinct outcomes of distinct actions
+- **Block**, **Dodge**, and **Parry** each count as a **Combo Hit**; unblocked HP damage triggers **Combo Break**
+- **Stealth** enables **Bypass** when the player's detection profile falls below the enemy's **Detection Threshold**
+- **Behaviour Tags** on enemies are always visually legible; **Vulnerability/Resistance Tags** are hidden until identified; **Masked Behaviour Tags** are revealed on first trigger
 - **Curses** are player-facing (applied to the **Contestant**); **Debuffs** are enemy-facing — never conflate
 - A **Quest** can have zero or more **Attached Challenges**; a **Narrative Branch** is a subtype of **Attached Challenge**
 - A **Sponsor Challenge** is a **Challenge** with "Sponsor" as its **Source Field** — same mechanic, different origin
@@ -211,6 +240,7 @@
 - **"Contestant" vs "Player character"**: "contestant" in in-world text; "player" in design docs. Never "hero."
 - **"Ability"**: overloaded. Be specific: **Active Ability** (cooldown, Level-Up Pool), **Passive Ability** (always-on, Level-Up Pool), or **Spell** (Tome-sourced, has Spell Charges). Never use "ability" alone when one of these specific terms applies.
 - **"Spell" vs "Scroll"**: a Spell lives in a Tome and has charges. A Scroll is a one-time Consumable with no requirements. They can contain overlapping effects but are mechanically distinct.
+- **"Stagger"**: two unrelated states share this word. **Player Stagger** = vulnerability entered when Blocking at 0 Composure (player is briefly locked out of actions). **Enemy Stagger** = vulnerability applied to an enemy by a successful Parry (opens attack window). Always specify which — never use "Stagger" alone.
 
 ---
 
