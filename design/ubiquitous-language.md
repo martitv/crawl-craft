@@ -156,8 +156,8 @@
 | **Combo Hit** | Any action that extends a Combo: attacks, Blocks, Dodges, and Parries all count. The player is performing while defending. | Hit, Strike |
 | **Combo Break** | When HP damage is dealt to the player (hit with no defence, or hit during Player Stagger). Resets the Current Entertainment contribution from the Combo. | Combo reset, Combo end |
 | **Bypass** | Avoiding enemy encounters without fighting, enabled by stealth builds or CC Consumables. Costs: no XP, no drops, no Viewer Spikes, lower Plan Adherence. A valid trade-off, not a free path. | Skip, Sneak past (use Bypass as the canonical term) |
-| **Stealth** | A build axis enabling enemies to be bypassed if the player is below the enemy's Detection Threshold. Full system TBD. | Sneak, Invisibility |
-| **Detection Threshold** | An enemy's sensitivity to player presence. Stealth builds reduce the player's detection profile below this value to enable Bypass. Full detection model TBD. | Aggro range, Detection radius |
+| **Stealth** | A spell or ability (Tome, Boon, or gear) that enables Bypass by suppressing the player's presence. Not a passive stat or permanent mode — it is acquired and used like any other ability. | Sneak, Invisibility, Stealth stat |
+| **High Perception** | A Behaviour Tag on certain enemies (guard dogs, sentinels, etc.) indicating they resist or shorten Stealth effectiveness. Always visually legible. | Detection radius, Aggro range |
 | **CC (Crowd Control)** | Consumables or abilities that neutralise a group of enemies temporarily (e.g. sleep bomb, sleep spell), enabling Bypass or creating an attack opportunity. | Disable, Stun (stun is a specific CC type) |
 | **Behaviour Tag** | An enemy Tag describing how it fights. Always visually legible — a flanker moves like a flanker before it flanks. No identification gear needed. | Enemy type, AI tag |
 | **Vulnerability/Resistance Tag** | A hidden enemy Tag describing what it is weak or resistant to. Not displayed by default. Revealed by identification gear (e.g. Goggles), identification scrolls, or NPC services. | Weakness, Elemental tag |
@@ -222,7 +222,7 @@
 - **Composure** is the shared cost resource for **Block**, **Dodge**, and **Parry**; attacks are always free
 - A successful **Parry** applies **Enemy Stagger**; a **Block** at 0 **Composure** applies **Player Stagger** — these are distinct outcomes of distinct actions
 - **Block**, **Dodge**, and **Parry** each count as a **Combo Hit**; unblocked HP damage triggers **Combo Break**
-- **Stealth** enables **Bypass** when the player's detection profile falls below the enemy's **Detection Threshold**
+- **Stealth** (spell/ability) enables **Bypass**; enemies with the **High Perception** Behaviour Tag resist or reduce Stealth effectiveness
 - **Behaviour Tags** on enemies are always visually legible; **Vulnerability/Resistance Tags** are hidden until identified; **Masked Behaviour Tags** are revealed on first trigger
 - **Curses** are player-facing (applied to the **Contestant**); **Debuffs** are enemy-facing — never conflate
 - A **Quest** can have zero or more **Attached Challenges**; a **Narrative Branch** is a subtype of **Attached Challenge**
