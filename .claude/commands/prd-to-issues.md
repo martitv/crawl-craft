@@ -20,7 +20,7 @@ If no argument is given, list files in `plans/`. Ask the user to pick one. Stop 
 1. Read the plan file in full.
 2. Read the linked PRD (from plan header).
 3. Read `design/ubiquitous-language.md` — use canonical terms.
-4. Read `design/GDD.md` — understand the broader design context for each slice.
+4. Read `design/GDD.md` (index) and the relevant section file(s) from `design/sections/` — understand the broader design context for each slice.
 
 ---
 

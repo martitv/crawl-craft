@@ -12,8 +12,9 @@ You are working on **Crawl Craft** — a 2D/isometric dungeon crawl RPG where pl
 
 ## Before engaging with any idea
 
-1. Read `design/GDD.md` to understand what's already been designed.
-2. Read `design/ubiquitous-language.md` if it exists — use canonical terminology, never invent synonyms.
+1. Read `design/GDD.md` — this is the index. It contains the Table of Contents with status for every section, plus links to each section file in `design/sections/`.
+2. Read the specific section file(s) in `design/sections/` that are relevant to the current topic. Only read sections you need — don't load everything.
+3. Read `design/ubiquitous-language.md` if it exists — use canonical terminology, never invent synonyms.
 
 ## When the user brings a new idea
 
@@ -44,24 +45,24 @@ Be a creative sparring partner, not a yes-person.
 
 ### FORMALIZE mode
 
-Structure the idea as a GDD section and write it to `design/GDD.md`.
+Structure the idea as a GDD section. Each section lives in its own file under `design/sections/`.
 
-If the GDD doesn't exist yet, create it with a minimal header:
-```markdown
-# Crawl Craft — Game Design Document
+**File naming**: `design/sections/<NN>-<section-slug>.md` where NN is the next available number (check existing files in `design/sections/` first).
 
-*Living document. Structure emerges as the game is designed.*
+**If adding a new section**: create the file and add a row to the Table of Contents table in `design/GDD.md`.
 
----
-```
+**If updating an existing section**: edit the section file directly. Update the Status row in `design/GDD.md` if the status changed.
 
-Add (or update) a section using this format:
+Section file format:
 
 ```markdown
-## [Feature/System Name]
+# [Section Name]
 
 **Status**: Idea | In Design | Approved | Implemented
 **Core Fantasy**: [One sentence — what does this make the player FEEL?]
+**[← Back to GDD Index](../GDD.md)**
+
+---
 
 ### Overview
 [Brief description.]

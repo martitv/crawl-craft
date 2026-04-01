@@ -26,7 +26,7 @@ If no argument is given, list files in `prd/` and open GitHub issues labeled "pr
 ## Step 1 — Read context
 
 1. Read the PRD in full.
-2. Read `design/GDD.md` — understand where this feature sits in the overall design.
+2. Read `design/GDD.md` — this is the index. Find the relevant section and read it from `design/sections/`.
 3. Read `design/ubiquitous-language.md` — use canonical terms.
 4. List existing files in `plans/` — check for related plans that share dependencies.
 

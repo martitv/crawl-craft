@@ -11,15 +11,16 @@ Convert a GDD section into a Product Requirements Document, saved locally and as
 
 `$ARGUMENTS` is the name or description of a GDD section to convert (e.g. "Combat System", "Broadcast Viewer Mechanic").
 
-If no argument is given, list all sections found in `design/GDD.md` with their current Status and ask the user to pick one. Stop until they respond.
+If no argument is given, read `design/GDD.md` and print the Table of Contents with each section's current Status. Ask the user to pick one. Stop until they respond.
 
 ---
 
 ## Step 1 — Read context
 
-1. Read `design/GDD.md` — locate the target section.
-2. Read `design/ubiquitous-language.md` — use canonical terms throughout. If it doesn't exist, note this and suggest running `/game-ubiquitous-language` first.
-3. Read any existing files in `prd/` to understand the established PRD style.
+1. Read `design/GDD.md` — this is the index. Locate the target section and its file path in `design/sections/`.
+2. Read the target section file from `design/sections/` in full.
+3. Read `design/ubiquitous-language.md` — use canonical terms throughout. If it doesn't exist, note this and suggest running `/game-ubiquitous-language` first.
+4. Read any existing files in `prd/` to understand the established PRD style.
 
 If the target section has Status `Idea`, warn the user:
 > "This section is still at Idea status. PRDs work best on In Design or Approved sections. Want to continue anyway, or should we spar on it first with the game-ideation agent?"

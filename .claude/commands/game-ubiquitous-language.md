@@ -8,9 +8,10 @@ Extract and formalize domain-specific game terminology from the GDD into `design
 
 ## Step 1 — Read source documents
 
-1. Read `design/GDD.md` in full.
-2. Read `design/ubiquitous-language.md` if it exists (for prior terms to update rather than duplicate).
-3. Read any files in `prd/` to catch terms introduced in PRDs.
+1. Read `design/GDD.md` — this is the index. It lists all section files in `design/sections/`.
+2. Read all section files in `design/sections/` — glob `design/sections/*.md` and read each one.
+3. Read `design/ubiquitous-language.md` if it exists (for prior terms to update rather than duplicate).
+4. Read any files in `prd/` to catch terms introduced in PRDs.
 
 ---
 
