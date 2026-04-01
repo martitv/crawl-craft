@@ -107,6 +107,22 @@
 
 ---
 
+## Quests & Challenges
+
+| Term | Definition | Aliases to avoid |
+|------|------------|-----------------|
+| **Quest** | A narrative/exploration task authored by the AI, written in its voice. Has a destination or target and a narrative wrapper. The only way to fail a Quest is to ignore it entirely — once attempted, it always resolves. Completing a Quest = Crescendo trigger. | Mission, Objective, Task |
+| **Challenge** | A condition-based task: "how you play" not "where you go." Event-driven — appears at scheduled floor moments, attached to Quests, or sourced from Sponsors. Completing a Challenge = Crescendo trigger. | Quest (distinct — do not conflate), Achievement, Task |
+| **Standalone Challenge** | A Challenge that appears mid-floor as its own event, independent of any Quest. Can be attempted or ignored; ignoring it means missing the bonus reward only. | Independent challenge, Floor challenge |
+| **Attached Challenge** | A Challenge modifier layered on top of an existing Quest. Decoupled from Quest success — missing it loses the bonus reward but does not affect Quest completion. | Quest modifier, Optional condition |
+| **Narrative Branch** | A special Attached Challenge where the outcome routes the Quest to a different consequence. Both outcomes fully resolve the Quest — neither is a failure. The AI uses these deliberately as storytelling forks, not difficulty modifiers. | Story branch, Quest fork, Optional objective |
+| **Sponsor Challenge** | A Challenge with "Sponsor" as its source field. Mechanically identical to other Challenges. Always themed to the sponsored item or playstyle. Completing it = the primary Crescendo for that floor's Sponsor contract. | Sponsor quest, Sponsor objective |
+| **Quest Journal** | The unified in-game UI tracking all active Quests and Challenges with their source metadata. Shows Quest status (Active/Complete/Ignored), attached Challenge status (Active/Completed/Missed), and logs Narrative Branch outcomes. Full UI design TBD. | Quest log, Journal, Objective tracker |
+| **Source Field** | Metadata on every Quest and Challenge indicating its origin: "AI", "Sponsor", "NPC", "Floor Event", etc. Visible in the Quest Journal. Does not change the mechanic — only the context. | Quest type (the source is not the type) |
+| **Quest Ignore** | The only true failure state for a Quest: never attempting it. Once a player begins a Quest, it resolves one way or another. Ignoring a Quest contributes to AI Mood degradation (Plan Adherence drops). | Quest failure (reserve "failure" for never attempting) |
+
+---
+
 ## Between Floors
 
 | Term | Definition | Aliases to avoid |
@@ -180,6 +196,9 @@
 - **Boons** are the result of **Level-Up** choices or **Sponsor Challenge** rewards; they install **Active Abilities**, **Passive Abilities**, or stat boosts
 - **Tags** on gear, weapons, and abilities are the connective tissue that **Boons** reference to create synergies
 - **Curses** are player-facing (applied to the **Contestant**); **Debuffs** are enemy-facing — never conflate
+- A **Quest** can have zero or more **Attached Challenges**; a **Narrative Branch** is a subtype of **Attached Challenge**
+- A **Sponsor Challenge** is a **Challenge** with "Sponsor" as its **Source Field** — same mechanic, different origin
+- The **Quest Journal** tracks both **Quests** and **Challenges** under a unified source-metadata system
 
 ---
 
@@ -197,8 +216,7 @@
 
 ## Undefined Terms (need definition added to GDD)
 
-- **Quests** — referenced throughout but never formally defined. AI-authored? Procedural? What is their structure? Distinct from Challenges? (Separate spar topic)
-- **Challenges** — used interchangeably with Quests in some places. Need distinct definitions. (Separate spar topic)
+- **Quest ignore threshold** — how does the player know a Quest is about to be failed by non-attempt? Timer, AI Message, visual indicator? TBD.
 - **Crafting** — mentioned in Between Floors and item taxonomy but system is TBD. (Separate spar topic)
 - **Tag vocabulary** — Tags are confirmed as the synergy engine but no canonical tag list exists yet. Full tag vocabulary TBD during combat design.
 - **Magical Affinity** — derivation from Int+Wis, thresholds, and brute-force unlock rate all TBD. Flagged open.

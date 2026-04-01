@@ -620,7 +620,6 @@ Example continuing from above:
 - **Magical Affinity**: exact mechanic for Intelligence + Wisdom derivation, affinity thresholds, and brute-force identification unlock rate are TBD. Flagged open — far from locked.
 - **Weapon tags**: full tag vocabulary for weapons TBD during combat system design
 - **Crafting and gathering**: full crafting system TBD — separate design topic
-- **Quests and challenges**: full definition TBD — separate design topic
 - **Spell cost tuning**: flat Viewer costs for Minor, Major, and Cataclysmic tiers are TBD — implementation tuning
 - **Chest and Legs synergy exceptions**: confirm whether to include occasional magical synergy effects or make these slots purely cosmetic/EV
 - **Charge counts**: exact base charges per tier for Minor and Major spells TBD
