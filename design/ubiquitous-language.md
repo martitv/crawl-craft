@@ -27,12 +27,14 @@
 | **Build** | The combination of stats, equipped items, passive abilities, and active abilities a player has accumulated during a run. | Loadout (loadout = starting item set only), Class, Spec |
 | **Loadout** | A pre-configured starting item set unlocked via Clout and selected before a run begins. Distinct from Build (which is the emergent result of a run). | Build (do not use for the starting set) |
 | **Stat** | A numeric character attribute. Core stats: Strength, Defense, Dexterity, Intelligence, Wisdom, Entertainment Value. | Attribute |
-| **Strength** | Combat stat. Increases physical damage. Visually: character becomes bulkier at high values. | STR |
-| **Defense** | Combat stat. Reduces incoming damage. | DEF, Armour (unless referring to an item type) |
-| **Dexterity** | Combat stat. Affects speed, dodge, or precision (exact mechanic TBD). Visually: character becomes leaner at high values. | DEX, Agility, Speed |
-| **Intelligence** | Stat that contributes to Magical Affinity and accelerates jewelry identification (exact mechanic TBD). Visually: character's head grows larger at high values. | INT |
-| **Wisdom** | Stat that contributes to Magical Affinity (exact mechanic TBD). Visually: character's beard grows longer at high values. | WIS |
+| **Strength** | Base stat. Damage multiplier on weapons, abilities, and attacks. Flat values come from gear; Strength scales them. Visually: character becomes bulkier at high values. | STR |
+| **Dexterity** | Base stat. Governs Composure max and passive regen rate. Visually: character becomes leaner at high values. | DEX, Agility, Speed |
+| **Intelligence** | Base stat. Contributes to Magical Affinity (with Wisdom) and accelerates jewelry identification. Visually: character's head grows larger at high values. | INT |
+| **Wisdom** | Base stat. Contributes to Magical Affinity (with Intelligence). Visually: character's beard grows longer at high values. | WIS |
+| **Charisma** | Base stat. The foundation of Entertainment Value — EV accumulates from Charisma + gear + Boons. High Charisma multiplies broadcast economy output. Visually: more expressive animations (exact effect TBD). | CHA |
 | **Magical Affinity** | Derived from Intelligence + Wisdom. Gates the effectiveness of equipped Jewelry. Low affinity = item gives EV only; high affinity = full magical effects active. Exact derivation TBD. | Magic stat, Arcane affinity |
+| **Armor** | Damage mitigation against physical damage. Sourced from items, Boons, and buffs — not a base stat. Diminishing returns model; effective cap 50% physical reduction. | Defense (Defense is retired as a stat name), DEF, Armour |
+| **Resistance** | Damage mitigation against magical damage. Sourced from items, Boons, and buffs — not a base stat. Same diminishing returns model as Armor; effective cap 50% magical reduction. Armor applies at half effectiveness against magic (25% max). Combined max magical mitigation: 75%. | Magic defense, Magic resist |
 | **XP** | Resource earned from all activities: kills, quest completions, events, challenges, exploring, gathering, crafting. Triggers a Level-Up when a threshold is reached. | Experience, Experience points |
 
 ---
@@ -41,7 +43,7 @@
 
 | Term | Definition | Aliases to avoid |
 |------|------------|-----------------|
-| **Entertainment Value (EV)** | A core build stat that determines how effectively a player converts spectacular actions into Viewers. Does not affect combat directly. Items and abilities carry EV ratings. | Charisma, Hype stat, Entertainment stat |
+| **Entertainment Value (EV)** | A derived accumulation: `EV = f(Charisma) + gear EV ratings + Boon modifiers + buffs`. Not a directly investable stat. Multiplied by action multipliers to generate Viewers. High Charisma makes all EV sources more effective. | Charisma (Charisma is the stat; EV is the derived output), Hype stat |
 | **Current Entertainment** | The real-time entertainment output the player is producing right now. Calculated from EV stat × recent actions. Distinct from EV (which is a static stat). Current Entertainment sets the target Viewcount the Viewer count trends toward. | EV (do not conflate with the stat), Live entertainment |
 | **Viewers** | The volatile, real-time audience hype stat. Spikes on spectacular actions; decays during inactivity. Forms the "buff" layer of Total Viewcount. Also serves as spell fuel via Overcasting. | Live viewers, View count (two words) |
 | **Viewer Spike** | A sudden sharp increase in Viewers triggered by a high-EV action, Crescendo, or other spectacular moment. | Hype spike, Viewer burst |

@@ -18,7 +18,7 @@
 | 7 | [Build System](sections/07-build-system.md) | 🔧 In Design | Gear slots, spells, Overcasting, Viewer Reservation, Tag synergy |
 | 8 | [Quests & Challenges](sections/08-quests-and-challenges.md) | 🔧 In Design | Quest types, Narrative Branches, Sponsor Challenges, Quest Journal |
 | 9 | [Combat System](sections/09-combat-system.md) | 🔧 In Design | Composure, Block/Dodge/Parry, Combo System, enemy tags, Bypass |
-| 10 | [Player Character](sections/10-player-character.md) | 💡 Idea | Blank slate identity, stat-driven appearance, crowd reactions |
+| 10 | [Player Character](sections/10-player-character.md) | 🔧 In Design | Base stats (Str/Dex/Int/Wis/Cha), HP/Composure model, EV derivation, Armor/Resistance |
 | 11 | [Movement System](sections/11-movement-system.md) | 🔧 In Design | Walk + Dash, Boots own Dash type, Composure economy, defensive vs offensive Dashes |
 
 ---
