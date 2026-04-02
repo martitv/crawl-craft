@@ -1,16 +1,32 @@
-# Crawl Craft
+# Crawl Craft — Game Design
 
-Game design document repository for a 2D/isometric RPG inspired by Dungeon Crawler Carl.
+2D/isometric dungeon crawl RPG inspired by Dungeon Crawler Carl. Players descend dungeon floors, face bosses, and manage viewer counts in a broadcast-style setting. Built in Godot 4.
 
-## Concept
+## Repo structure
 
-Players descend through dungeon floors facing bosses and challenges while managing viewer counts and popularity in a broadcast-style setting.
+- `design/GDD.md` — master Game Design Document (index → links to `design/sections/`)
+- `design/ubiquitous-language.md` — canonical game terminology glossary
+- `prd/` — Product Requirement Documents (mirrored as GitHub issues)
+- `plans/` — phased development plans per feature
 
-## Repository Structure
+## Workflow
 
-- `design/` — Core game design documents
-- `prd/` — Product requirement documents
+```
+Braindump / ideas
+    ↓ [game-ideation agent] — spar or formalize into GDD
+design/GDD.md
+    ↓ [/game-ubiquitous-language] — run after significant GDD additions
+design/ubiquitous-language.md
+    ↓ [/gdd-to-prd <section>]
+prd/<feature>.md + GitHub Issue (label: prd)
+    ↓ [/prd-to-plan <issue>]  (run in crawl-craft-game repo)
+plans/<feature>.md
+    ↓ [/prd-to-issues <plan>]  (run in crawl-craft-game repo)
+GitHub Issues (label: work-item) → implemented in martitv/crawl-craft-game
+```
 
-## Task Management
+## Rules
 
-All tasks and PRDs are tracked via [GitHub Issues](../../issues).
+- GDD section status tags: `Idea → In Design → Approved → Implemented`
+- Run `/game-ubiquitous-language` after major GDD additions and before writing PRDs
+- Each PRD and work issue should be a vertical slice — thin but complete end-to-end
