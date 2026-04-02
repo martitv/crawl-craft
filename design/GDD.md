@@ -20,6 +20,7 @@
 | 9 | [Combat System](sections/09-combat-system.md) | 🔧 In Design | Composure, Block/Dodge/Parry, Combo System, enemy tags, Bypass |
 | 10 | [Player Character](sections/10-player-character.md) | 🔧 In Design | Base stats (Str/Dex/Int/Wis/Cha), HP/Composure model, EV derivation, Armor/Resistance |
 | 11 | [Movement System](sections/11-movement-system.md) | 🔧 In Design | Walk + Dash, Boots own Dash type, Composure economy, defensive vs offensive Dashes |
+| 12 | [Enemy Design](sections/12-enemy-design.md) | 🔧 In Design | 5 demo archetypes, Showboater mini-boss, encounter sequencing, tag system |
 
 ---
 
