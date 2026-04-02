@@ -78,7 +78,7 @@ Not stats — always item/Boon/buff-sourced.
 ### Leveling
 
 - **XP sources**: kills, quest completions, challenges, exploration, gathering, crafting. Bypass builds are not locked out.
-- **Level-ups per floor**: approximately 5 on average for early floors. Each level-up presents a Boon pool choice.
+- **Level-ups per floor**: approximately 5 on average for early floors. Each level-up presents a Boon pool choice and grants **3 free stat points** to distribute across any of the 5 base stats.
 - **First level-up timing**: roughly 60% through the floor — before the floor boss, so the boss encounter is shaped by at least one Boon choice.
 - Exact XP thresholds are implementation tuning targets.
 
