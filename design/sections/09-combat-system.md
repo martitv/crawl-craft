@@ -100,11 +100,13 @@ The Combo System is the bridge between combat and the Audience System. A Combo i
 - Every defensive action — Block, Dodge, Parry — counts as a Combo hit. The player is performing while defending.
 - Combo is continuous as long as every incoming hit is handled by a defensive action.
 
-**What breaks Combo:**
+**What pauses Combo:**
 
-- HP damage being dealt to the player. This means: being hit with no defensive action taken, or being hit while in Stagger.
-- Block does not break Combo — damage never reaches HP.
-- A Stagger state does not break Combo on its own — but the vulnerability window that follows frequently leads to a Combo break on the next hit.
+- HP damage pauses Combo growth — the Combo stops building while the player is absorbing a hit. It does NOT reduce Entertainment value already accumulated.
+- Block does not pause Combo — damage never reaches HP.
+- A Stagger state does not pause Combo on its own — but the vulnerability window that follows frequently leads to HP damage on the next hit.
+
+**Getting hit is entertainment too.** A player taking HP damage is drama — the crowd leans in, not away. Entertainment only decays from inactivity, not from taking damage.
 
 **Combo break is a decay, not a hard reset:**
 
