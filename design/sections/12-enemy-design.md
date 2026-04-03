@@ -1,6 +1,6 @@
 # Enemy Design
 
-**Status**: In Design
+**Status**: Implemented (Demo)
 **Core Fantasy**: Every enemy is a problem to read — and when you read it correctly in front of a crowd, they feel it.
 **[← Back to GDD Index](../GDD.md)**
 
@@ -11,6 +11,18 @@
 Enemies in Crawl Craft are authored characters in the broadcast, not obstacle generators. Every enemy has a distinct Behaviour Tag, a visually legible tell, and a specific combat mechanic it forces the player to engage with. Enemy groupings on a floor are composed by the AI with broadcast intent — pacing, spectacle, and challenge.
 
 Regular enemies teach and pressure through combat mechanics. Audience/Viewer interactions are reserved for bosses and mini-bosses, where the dramatic stakes are high enough to carry them.
+
+### Combat Fundamentals
+
+All melee enemies share these base behaviours:
+
+- **Wind-up Telegraph**: 0.5s yellow flash before a melee attack lands. Gives the player time to Block/Parry.
+- **Activation Range**: enemies idle until the player is within 200px.
+- **Angle Slot Positioning**: enemies claim unique angles (8 slots) around the player. Prevents clumping. Pack Tactics enemies prefer back-angle slots (flanking).
+- **Enemy Stagger**: 1.0s timer with shake visual, auto-recovers. Triggered by Parry or specific abilities.
+- **Health Bars**: visible above enemies. Green→red gradient based on HP ratio.
+- **Death Animation**: shrink + fade tween (0.3s) before removal.
+- **Name + Tag Labels**: display name visible, Behaviour Tags shown. Masked Tags appear on first reveal.
 
 ---
 
@@ -54,24 +66,24 @@ Five archetypes for the initial demo floor. Each teaches one core mechanic throu
 
 **The mechanic to discover**: the long wind-up creates an attack window before the hit lands. A player who reads the telegraph, attacks twice, then Blocks the hit is playing optimally. Dodge is also valid — 1 flat Composure versus 2–3 for a Block — and landing behind the Slugger creates a punish window.
 
-**Masked Behaviour Tag**: `[Feint]` — every third attack is a fast jab (1 Composure cost) before the big hit. The pattern is jab–jab–SLAM. Parry becomes appealing on the jabs: 1 Composure cost, refunded on success, Composure banked for the slam. First trigger reveals the tag.
+**Masked Behaviour Tag**: `[Feint]` — every 3rd attack is a Feint (fast jab, 1 Composure cost). The pattern repeats: hit–hit–feint. Parry becomes appealing on the feint jabs: 1 Composure cost, refunded on success, Composure banked for the next heavy hit. First trigger reveals the tag.
 
 **Encounter position**: second. First solo threat. Forces the player to think about hit cost before any multi-enemy complexity.
 
 ---
 
-#### 3. Darter
+#### 3. Darter (Ranged)
 **Behaviour Tag**: `[Skirmisher]`
-**Appears as**: small, fast enemy that circles at the edge of attack range
-**Visual tell**: crouched movement, slight forward lean before darting in. No wind-up — the tell is positional, not animated.
+**Appears as**: small, fast enemy that circles at range. The first ranged archetype the player encounters.
+**Visual tell**: crouched movement, maintains ~120px preferred distance. Retreats after attacking. No wind-up telegraph — fires projectiles without the 0.5s flash that melee enemies use.
 
-**What it teaches**: Dodge timing over Block. The Darter's hit is too fast to Block cleanly — the player needs to read the positional cue (Darter closes distance slightly) and Dodge before the dart, not during it.
+**What it teaches**: Dodge timing over Block when projectiles have no telegraph. The Darter fires projectiles at 0.75s cooldown (half normal enemy attack speed). Projectiles are blockable (costs Composure) and parryable (refunds Composure, no enemy stagger). The player needs to read the positional cue (Darter stops retreating and faces the player) and Dodge before the shot, not during it.
 
-**The mechanic to discover**: the positional tell. Players who try to Block the Darter get punished for slow reads. Players who learn to Dodge through the dart end up behind it — with a punish window on its return.
+**The mechanic to discover**: the positional tell and the ranged pressure pattern. Players who try to Block every projectile drain Composure quickly. Players who close distance force the Darter to retreat, creating windows to attack. Players who learn to Parry projectiles can sustain Composure at range.
 
-**Masked Behaviour Tag**: `[Third Strike Grab]` — every third consecutive dart-in is a grab that cannot be Blocked or Dodged, only Parried. First trigger reveals the tag. Teaches pattern-counting alongside animation-reading.
+**Masked Behaviour Tag**: `[Third Strike Grab]` — every third consecutive attack is a grab that cannot be Blocked or Dodged, only Parried. First trigger reveals the tag. Teaches pattern-counting alongside projectile-reading.
 
-**Encounter position**: third. Introduces Dodge as the correct answer after the Slugger established Block as expensive.
+**Encounter position**: third. Introduces Dodge as the correct answer and ranged pressure after the Slugger established Block as expensive.
 
 ---
 

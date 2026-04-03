@@ -1,6 +1,6 @@
 # Movement System
 
-**Status**: In Design
+**Status**: Implemented (Demo)
 **Core Fantasy**: Every move is a decision — where you are, how you got there, and what you gave up to do it.
 **[← Back to GDD Index](../GDD.md)**
 
@@ -9,6 +9,8 @@
 ### Overview
 
 Movement in Crawl Craft is isometric top-down. The full movement vocabulary is: **walk** and **dash**. No jumping. Floors are authored environments, not platforming spaces.
+
+**Move Direction vs Facing Direction**: the player has two independent direction vectors. **Move Direction** (WASD) controls walking and Dash direction. **Facing Direction** (mouse cursor) controls attack arc and Block arc. These are decoupled — the player can retreat while aiming forward.
 
 The Dash is the single movement verb beyond walking. Its behaviour is entirely defined by the player's equipped Boots — the Boots slot owns the Dash identity. Boons add properties on top of the Boots type but never replace it.
 
@@ -38,7 +40,7 @@ Grant i-frames during the dash. The player can use these to avoid incoming hits.
 
 | Boot Type | Composure Cost | Identity |
 |-----------|---------------|---------|
-| **Burst** | 1 | Short range, reliable i-frames, instant. The baseline — readable, forgiving, no edge cases. |
+| **Burst** | 1 | Short range, reliable i-frames. Implemented as a velocity impulse + tween to zero (0.15s), not an instant teleport — feels smooth and directional. The baseline — readable, forgiving, no edge cases. |
 | **Roll** | 1 | Longer i-frame window than Burst, but directional commitment — fixed arc, no mid-dash correction. Rewards reads, punishes panic. |
 | **Phase** | 2 | Long-range teleport to a targeted point. I-frames are extremely brief (blink-duration only). The payoff is precision placement, not i-frame safety. |
 

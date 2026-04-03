@@ -1,7 +1,7 @@
 # Crawl Craft — Ubiquitous Language
 
 *Canonical terminology. Use these exact terms in all design docs, PRDs, and code.*
-*Last updated: 2026-04-01*
+*Last updated: 2026-04-04*
 
 ---
 
@@ -26,7 +26,7 @@
 | **Contestant** | The in-world term for a player character. They are not heroes — they are contestants in a broadcast. Use "contestant" in flavour text and AI dialogue; use "player" or "player character" in design docs. | Hero, Player character (in flavour text) |
 | **Build** | The combination of stats, equipped items, passive abilities, and active abilities a player has accumulated during a run. | Loadout (loadout = starting item set only), Class, Spec |
 | **Loadout** | A pre-configured starting item set unlocked via Clout and selected before a run begins. Distinct from Build (which is the emergent result of a run). | Build (do not use for the starting set) |
-| **Stat** | A numeric character attribute. Core stats: Strength, Defense, Dexterity, Intelligence, Wisdom, Entertainment Value. | Attribute |
+| **Stat** | A numeric character attribute. Base stats: Strength, Dexterity, Intelligence, Wisdom, Charisma. All start at 1. Derived: Entertainment Value, Composure, Armor, Resistance. | Attribute |
 | **Strength** | Base stat. Damage multiplier on weapons, abilities, and attacks. Flat values come from gear; Strength scales them. Visually: character becomes bulkier at high values. | STR |
 | **Dexterity** | Base stat. Governs Composure max and passive regen rate. Visually: character becomes leaner at high values. | DEX, Agility, Speed |
 | **Intelligence** | Base stat. Contributes to Magical Affinity (with Wisdom) and accelerates jewelry identification. Visually: character's head grows larger at high values. | INT |
@@ -147,10 +147,10 @@
 
 | Term | Definition | Aliases to avoid |
 |------|------------|-----------------|
-| **Dash** | The single active movement verb beyond walking. Behaviour entirely defined by equipped Boots. All Dashes cost Composure — even traversal outside combat. | Sprint, Roll (Roll is a specific Dash type), Dodge (Dodge is a use-case of Dash, not a synonym) |
+| **Dash** | The single active movement verb beyond walking. Behaviour entirely defined by equipped Boots. Direction follows Move Direction (WASD), not Facing Direction (mouse). All Dashes cost Composure — even traversal outside combat. | Sprint, Roll (Roll is a specific Dash type), Dodge (Dodge is a use-case of Dash, not a synonym) |
 | **Defensive Dash** | A Dash type that grants i-frames during the dash. Allows the player to avoid incoming hits. Types: Burst, Roll, Phase. | Safe dash, Evasion dash |
 | **Offensive Dash** | A Dash type that replaces i-frames with an attack or CC effect. The player has no dodge escape — only Block and Parry for defence. Types: Stomp, Lunge, Kick/variant. | Attack dash (use Offensive Dash) |
-| **Burst Dash** | Defensive Dash. Short range, reliable i-frames, 1 Composure. The baseline Dash — readable and forgiving. | Basic dash |
+| **Burst Dash** | Defensive Dash. Short range, reliable i-frames, 1 Composure. Implemented as a velocity impulse + tween to zero (0.15s), not instant teleport. The baseline Dash — readable and forgiving. | Basic dash |
 | **Roll Dash** | Defensive Dash. Longer i-frame window than Burst, directional commitment (fixed arc). 1 Composure. | Barrel roll |
 | **Phase Dash** | Defensive Dash. Long-range teleport to a targeted point. Very brief i-frames (blink-duration only). 2 Composure. | Teleport dash, Blink |
 | **Stomp** | Offensive Dash. Single-target slam — deals damage and applies Knockdown or heavy Stagger. 2 Composure. No i-frames. | Ground slam (Stomp is the canonical term) |
@@ -163,9 +163,9 @@
 | Term | Definition | Aliases to avoid |
 |------|------------|-----------------|
 | **Composure** | The player's discrete defensive resource pool. Not a bar — a point count (base 3–5, TBD). Only defensive actions cost Composure; attacks are always free. Regenerates passively. Affected by Dexterity and gear. | Stamina, Defense points, Guard |
-| **Block** | A defensive action that fully negates incoming damage at the cost of Composure points. Cost scales with hit size (bigger hits cost more). Counts as a Combo Hit. At 0 Composure: still blocks damage but causes Player Stagger. | Guard, Shield |
-| **Dodge** | A defensive action that costs 1 Composure (base). Grants brief I-frames and a movement burst. Counts as a Combo Hit. | Roll, Evade, Dash (dash is movement, dodge is defensive) |
-| **Parry** | A defensive action that costs 1 Composure (base) and requires a precise timing window. On success: fully negates damage, refunds Composure spent, and applies Enemy Stagger. Counts as a Combo Hit. | Counter, Deflect |
+| **Block** | A hold-based defensive action (RMB hold). Directional: 120° frontal arc based on Facing Direction. Fully negates incoming damage within the arc at the cost of Composure points. Cost scales with hit size. 0.3s cooldown after attacking. At 0 Composure: still blocks but causes Player Stagger. Attacks from behind bypass Block entirely. Visual: blue arc while holding, white flash on block, gold flash on parry. Counts as a Combo Hit. | Guard, Shield |
+| **Dodge** | A defensive action that uses the equipped Dash (Burst Dash by default). Costs flat Composure (varies by Boots type). Grants brief I-frames and a movement burst (Defensive Dashes only). Direction follows Move Direction (WASD), not Facing Direction. Counts as a Combo Hit. | Roll, Evade |
+| **Parry** | The first 0.2s of a Block hold. Not a separate input — if an enemy attack lands within the parry window of a Block, the Block is upgraded. On success: fully negates damage, refunds Composure spent, applies Enemy Stagger, and grants Parry Bonus Lunge (2× weapon lunge on next attack). On miss: treated as a normal Block. Counts as a Combo Hit. | Counter, Deflect |
 | **I-frames** | Invincibility frames — a brief window of damage immunity granted by Dodge. | Invincibility window |
 | **Player Stagger** | The vulnerability state entered when Blocking with 0 Composure. Damage is still blocked but the player cannot act for a brief window. A hit landing during Player Stagger deals HP damage directly and breaks Combo. Distinct from Enemy Stagger. | Stagger (always specify Player or Enemy) |
 | **Enemy Stagger** | A brief vulnerability state applied to an enemy by a successful Parry. Opens an attack window. Distinct from Player Stagger. | Stagger (always specify Player or Enemy) |
@@ -179,6 +179,18 @@
 | **Behaviour Tag** | An enemy Tag describing how it fights. Always visually legible — a flanker moves like a flanker before it flanks. No identification gear needed. | Enemy type, AI tag |
 | **Vulnerability/Resistance Tag** | A hidden enemy Tag describing what it is weak or resistant to. Not displayed by default. Revealed by identification gear (e.g. Goggles), identification scrolls, or NPC services. | Weakness, Elemental tag |
 | **Masked Behaviour Tag** | A hidden enemy behaviour that is only revealed the first time that behaviour triggers. After first encounter, it becomes known. Designed to teach, not to punish repeatedly. | Hidden mechanic, Secret attack |
+| **Weapon Arc** | The angular width and range of a weapon's attack hitbox. Implemented as a ConvexPolygonShape2D cone that rotates with Facing Direction. Each weapon defines its own arc_angle and arc_range. | Hitbox, Swing range |
+| **Attack Speed** | Per-weapon cooldown between attacks (e.g. fists=0.5s, club=1.0s). No attack queuing — the player must wait for the cooldown before the next swing. | Swing speed, Attack rate |
+| **Knockback** | Push distance applied on hit. Per-weapon value (fists=10px, club=40px). Parry knockback is fixed at 50px. Block pushes the player back (30px × composure cost of the blocked hit). | Pushback |
+| **Lunge** | Forward movement during an attack swing. Per-weapon value. Capped at distance to cursor. Parry Bonus Lunge = 2× base lunge. Distinct from Lunge as an Offensive Dash type. | Forward thrust |
+| **Facing Direction** | The direction the player character is aiming. Follows the mouse cursor. Controls attack arc, Block arc, and Lunge direction. Independent of Move Direction. | Aim direction, Look direction |
+| **Move Direction** | The direction the player character is walking/dashing. Follows WASD input. Controls Dash direction. Independent of Facing Direction. | Walk direction, Input direction |
+| **Block Arc** | The 120° frontal cone (centred on Facing Direction) within which Block is active. Attacks from outside this arc bypass Block entirely. Visual: persistent blue curved line while holding RMB. | Block zone, Shield arc |
+| **Parry Bonus Lunge** | After a successful Parry, the next attack gets 2× weapon lunge distance (capped at distance to cursor). Rewards aggressive follow-up after a clean defensive read. | Parry lunge, Counter lunge |
+| **Wind-up Telegraph** | A 0.5s yellow flash on melee enemies before their attack lands. Universal across all melee archetypes. Gives the player time to Block/Parry. Ranged enemies (Skirmisher) have no wind-up. | Telegraph, Attack warning |
+| **Projectile** | A ranged attack fired by Skirmisher enemies. Travels toward the player. Blockable (costs Composure) and Parryable (refunds Composure, no enemy stagger). | Bullet, Ranged attack |
+| **Activation Range** | The distance (200px) at which enemies transition from idle to active. Enemies outside this range do not attack or pursue. | Aggro range, Detection range |
+| **Angle Slot** | One of 8 positional slots around the player that enemies claim to prevent clumping. Each enemy occupies a unique slot. Pack Tactics enemies prefer back-angle slots for flanking. | Position slot, Formation slot |
 
 ---
 
@@ -245,6 +257,12 @@
 - **Block**, **Dodge**, and **Parry** each count as a **Combo Hit**; unblocked HP damage triggers **Combo Break**
 - **Stealth** (spell/ability) enables **Bypass**; enemies with the **High Perception** Behaviour Tag resist or reduce Stealth effectiveness
 - **Behaviour Tags** on enemies are always visually legible; **Vulnerability/Resistance Tags** are hidden until identified; **Masked Behaviour Tags** are revealed on first trigger
+- **Facing Direction** (mouse) controls **Block Arc**, **Weapon Arc**, and **Lunge** direction; **Move Direction** (WASD) controls walking and **Dash** direction — these are independent
+- **Block** is hold-based; the first 0.2s of a Block hold is the **Parry** window — Parry is not a separate input
+- **Parry Bonus Lunge** rewards successful Parry with 2× weapon **Lunge** on the next attack
+- **Angle Slots** prevent enemy clumping; **Pack Tactics** enemies prefer back-angle slots for flanking
+- **Wind-up Telegraph** (0.5s flash) is universal for melee enemies; **Skirmisher** (ranged) enemies have no wind-up
+- **Projectiles** are blockable (costs Composure) and parryable (refunds Composure) — same defensive model as melee
 - **Curses** are player-facing (applied to the **Contestant**); **Debuffs** are enemy-facing — never conflate
 - A **Quest** can have zero or more **Attached Challenges**; a **Narrative Branch** is a subtype of **Attached Challenge**
 - A **Sponsor Challenge** is a **Challenge** with "Sponsor" as its **Source Field** — same mechanic, different origin
@@ -271,7 +289,8 @@
 - **Crafting** — mentioned in Between Floors and item taxonomy but system is TBD. (Separate spar topic)
 - **Tag vocabulary** — Tags are confirmed as the synergy engine but no canonical tag list exists yet. Full tag vocabulary TBD during combat design.
 - **Magical Affinity** — derivation from Int+Wis, thresholds, and brute-force unlock rate all TBD. Flagged open.
-- **Dexterity, Intelligence, Wisdom** — visual effects confirmed; mechanical effects TBD.
+- **Dexterity** — Composure scaling confirmed (+1 max per Dex above 1, regen scales). Visual effects confirmed.
+- **Intelligence, Wisdom** — visual effects confirmed; Magical Affinity derivation TBD.
 
 ---
 

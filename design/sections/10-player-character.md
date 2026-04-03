@@ -1,6 +1,6 @@
 # Player Character
 
-**Status**: In Design
+**Status**: Implemented (Demo)
 **Core Fantasy**: You did not choose who to be — you became someone through what you did.
 **[← Back to GDD Index](../GDD.md)**
 
@@ -60,8 +60,13 @@ Action multipliers vary: overkill, chain kill, simultaneous kill, Parry, high-Co
 ### Composure
 
 - **Base Composure**: 4 points
-- **Scales with Dexterity**: every point of Dexterity above 1 increases max Composure and passive regen rate (exact values TBD, implementation tuning)
-- Passive regen is always active. Rate is tunable. The intent: between-encounter spacing naturally restores Composure; sustained pressure within an encounter depletes it meaningfully.
+- **Scales with Dexterity**: +1 max Composure per Dex above 1. Regen rate also scales with Dex.
+- Passive regen: 1 point per 2.0s (base). Always active.
+- **Composure floor**: Composure is clamped to 0 minimum — it can never go negative.
+
+**Visual feedback**:
+- **Player Stagger**: shake effect (±2px oscillation) — matches enemy stagger visual.
+- **Knocked Down**: sprite flips (rotation = PI) to indicate death state.
 
 ---
 

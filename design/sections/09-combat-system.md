@@ -1,6 +1,6 @@
 # Combat System
 
-**Status**: In Design
+**Status**: Implemented (Demo)
 **Core Fantasy**: Every fight is a performance. You read the enemy, you respond with precision, and when the build clicks the crowd goes insane.
 **[← Back to GDD Index](../GDD.md)**
 
@@ -39,42 +39,59 @@ A Stagger landing in the middle of an enemy attack chain almost always results i
 
 Stagger is the mechanical cost of reckless defence. The design intent: blocking is never locked out, but spending it carelessly has consequences that can cascade.
 
-### Three Defensive Actions
+### Defensive Actions
 
-All three defensive actions cost Composure. All three count as Combo hits — the player is still performing while defending.
+All defensive actions cost Composure. All count as Combo hits — the player is still performing while defending.
 
 ---
 
-**1. Block**
+**1. Block (Hold-Based)**
 
+- **Input**: hold RMB. Block remains active for the duration of the hold.
+- **Directional**: 120° frontal arc based on the player's Facing Direction (mouse cursor). Attacks from behind bypass Block entirely.
 - Costs Composure proportional to the incoming hit size (scaling, not flat).
-- Fully negates all damage from the incoming hit.
-- Counts as a Combo hit.
+- Fully negates all damage from hits landing within the block arc.
+- 0.3s cooldown after attacking — prevents block-attack-block spam with no vulnerability window.
 - At 0 Composure: damage is still fully blocked, but the player enters Stagger.
-- Base effect only. Extensible through items, Boons, weapon effects, stat thresholds (e.g., a Boon that causes Block to reflect a small amount of damage; a weapon tag that restores 1 Composure on a clean Block).
-
----
-
-**2. Dodge**
-
-- Costs flat Composure (1 point, base).
-- Grants brief invincibility frames (i-frames) and a movement burst.
+- Visual feedback: persistent blue curved arc while holding RMB. Flashes white on a successful Block, gold on a successful Parry.
 - Counts as a Combo hit.
-- Base effect only. Extensible through items, Boons, Boots slot effects.
 
 ---
 
-**3. Parry**
+**2. Parry (Block Timing Window)**
 
-- Costs flat Composure (1 point, base).
-- Requires a precise timing window relative to the incoming hit.
-- On success: fully negates damage, applies a small stagger to the attacking enemy, and refunds the Composure spent.
+- **Not a separate input.** Parry is the first 0.2s of a Block hold. If an enemy attack lands within that window, the Block is upgraded to a Parry.
+- On success: fully negates damage, refunds the Composure spent, applies Enemy Stagger, and grants a **Parry Bonus Lunge** (2× weapon lunge distance on next attack, capped at distance to cursor).
+- On miss (hit lands after the 0.2s window): treated as a normal Block (full Composure cost, no refund, no stagger).
 - Counts as a Combo hit.
-- Base effect only. Extensible through items, Boons, timing-window wideners, escalating enemy staggers.
 
 ---
 
-All three actions are intentionally minimal at base. The design space lives in how items, Boons, potions, weapon tags, and stat thresholds extend each action — not in complexity at the base level.
+**3. Dodge (Dash)**
+
+- Mechanically uses the equipped Dash (Burst Dash by default). See [Movement System](11-movement-system.md) for Dash types.
+- Costs flat Composure (1 point for Burst, varies by Boots type).
+- Grants brief i-frames and a movement burst (Defensive Dashes only — Offensive Dashes replace i-frames with attack/CC).
+- Direction follows Move Direction (WASD), not Facing Direction (mouse).
+- Counts as a Combo hit.
+
+---
+
+All defensive actions are intentionally minimal at base. The design space lives in how items, Boons, potions, weapon tags, and stat thresholds extend each action — not in complexity at the base level.
+
+### Weapon System
+
+Each weapon defines its own combat profile:
+
+| Property | Description |
+|----------|-------------|
+| **Weapon Arc** | The angular width and range of the attack hitbox (ConvexPolygonShape2D cone, rotates with Facing Direction) |
+| **Attack Speed** | Per-weapon cooldown between attacks (fists=0.5s, club=1.0s). No attack queuing. |
+| **Knockback** | Per-weapon push distance on hit (fists=10px, club=40px). Parry knockback is fixed at 50px. Block pushes the player back (30px × composure cost). |
+| **Lunge** | Forward movement during the attack swing. Capped at distance to cursor. Parry Bonus Lunge = 2× base lunge. |
+| **Damage** | Flat base damage, multiplied by Strength. |
+
+**Aiming**: Facing Direction (mouse cursor) and Move Direction (WASD) are independent. The player aims attacks and blocks with the mouse while moving freely with WASD.
 
 ### Stagger
 
@@ -84,7 +101,8 @@ Stagger is the vulnerability state entered when Blocking with insufficient Compo
 - Recovery is purely time-based. No recovery input. No button-mashing.
 - Duration is brief but long enough to matter in a continuing enemy attack chain.
 - A hit landing during Stagger deals HP damage directly, since no defensive action is possible.
-- HP damage during Stagger breaks Combo (see Combo System).
+- HP damage during Stagger pauses Combo (see Combo System).
+- **Composure floor**: Composure is clamped to 0 minimum — it can never go negative.
 
 **Stagger → Knocked Down (overflow threshold):**
 
