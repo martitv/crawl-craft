@@ -17,10 +17,10 @@
 | 6 | [Meta-Progression](sections/06-meta-progression.md) | 🔧 In Design | Clout formula, permanent upgrades, starting loadouts |
 | 7 | [Build System](sections/07-build-system.md) | 🔧 In Design | Gear slots, spells, Overcasting, Viewer Reservation, Tag synergy |
 | 8 | [Quests & Challenges](sections/08-quests-and-challenges.md) | 🔧 In Design | Quest types, Narrative Branches, Sponsor Challenges, Quest Journal |
-| 9 | [Combat System](sections/09-combat-system.md) | 🏗️ Implemented | Composure, hold-based Block/Parry, Dodge-as-Dash, directional blocking, weapon arcs, Combo System, Bypass |
+| 9 | [Combat System](sections/09-combat-system.md) | 🏗️ Implemented | Composure, hold-based Block/Parry, Dodge-as-Dash, directional blocking, weapon arcs, Ranged Attacks (bow charge), Combo System, Bypass |
 | 10 | [Player Character](sections/10-player-character.md) | 🏗️ Implemented | Base stats (Str/Dex/Int/Wis/Cha), HP 50+5/lvl, Composure +1/Dex, regen 1pt/2s, Armor/Resistance |
 | 11 | [Movement System](sections/11-movement-system.md) | 🏗️ Implemented | Walk + Dash, move/facing direction split, impulse-based Burst Dash, Composure economy |
-| 12 | [Enemy Design](sections/12-enemy-design.md) | 🏗️ Implemented | 5 archetypes (Skirmisher now ranged), Showboater, angle slots, wind-up telegraphs, projectiles |
+| 12 | [Enemy Design](sections/12-enemy-design.md) | 🏗️ Implemented | 5 archetypes (Darter is ranged skirmisher w/ bow), Showboater, angle slots, wind-up telegraphs, Formation AI (Swarm Coordinator), universal aggression rules |
 
 ---
 

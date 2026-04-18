@@ -93,6 +93,25 @@ Each weapon defines its own combat profile:
 
 **Aiming**: Facing Direction (mouse cursor) and Move Direction (WASD) are independent. The player aims attacks and blocks with the mouse while moving freely with WASD.
 
+### Ranged Attacks
+
+Ranged weapons use a **hold-to-draw, release-to-fire** charge model — not a button-mash. The draw turns every shot into a meaningful commitment.
+
+- **Press attack** → begin **Draw**. Arrow is nocked on the off-hand and tracks Facing Direction.
+- **Charge** accumulates from 0→1 over the weapon's `draw_duration` (bow base: 2s).
+- **Release attack** → fire. Damage scales with charge: `lerp(0.25, 2.0, charge) × base_damage`. Floor 25% (Panic Shot), peak 200% at full draw (Sniper Shot).
+- **Cooldown** is respected on release, not press. Holding does not block future shots.
+- The player can release early for a fast low-damage shot under pressure, or hold for commitment-peak damage at the cost of exposure.
+
+Design intent: ranged is a **risk/reward commitment tool**. A fully drawn Sniper Shot is 8× the damage of a Panic Shot — but the 2s draw is a defensive vacuum. The Panic Shot is always available to break contact. Players learn to read their own pressure state, not just the enemy's.
+
+Ranged weapons share the combat profile of melee weapons (damage, cooldown, knockback) with additional properties:
+
+| Property | Description |
+|----------|-------------|
+| **Draw Duration** | Time from press to full charge (bow base: 2s). Per-weapon. |
+| **Charge Curve** | Maps draw progress (0→1) to damage multiplier. Default: `lerp(0.25, 2.0, charge)`. |
+
 ### Stagger
 
 Stagger is the vulnerability state entered when Blocking with insufficient Composure. It is distinct from Knocked Down.

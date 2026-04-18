@@ -14,15 +14,42 @@ Regular enemies teach and pressure through combat mechanics. Audience/Viewer int
 
 ### Combat Fundamentals
 
-All melee enemies share these base behaviours:
+All enemies share these base behaviours:
 
-- **Wind-up Telegraph**: 0.5s yellow flash before a melee attack lands. Gives the player time to Block/Parry.
+- **Wind-up Telegraph**: 0.5s yellow flash before a melee attack lands. Gives the player time to Block/Parry. Ranged enemies use the Draw itself as their telegraph instead.
 - **Activation Range**: enemies idle until the player is within 200px.
 - **Angle Slot Positioning**: enemies claim unique angles (8 slots) around the player. Prevents clumping. Pack Tactics enemies prefer back-angle slots (flanking).
 - **Enemy Stagger**: 1.0s timer with shake visual, auto-recovers. Triggered by Parry or specific abilities.
 - **Health Bars**: visible above enemies. Green→red gradient based on HP ratio.
 - **Death Animation**: shrink + fade tween (0.3s) before removal.
 - **Name + Tag Labels**: display name visible, Behaviour Tags shown. Masked Tags appear on first reveal.
+
+### Universal Aggression Rules
+
+Two rules apply to **every** enemy, regardless of archetype. They close common cheese paths and make the encounter feel committed.
+
+- **Chase-on-Hit**: any enemy that takes damage enters a 5-second **Pursuit State**. Pursuit bypasses Activation Range — the enemy will chase out of its normal aggro zone. The timer resets on each new hit. If it expires and the player is still outside Activation Range, the enemy returns to idle.
+- **Swarm Aggro Pull**: when any member of a Swarm (see Formation AI below) detects the player OR takes damage, the entire Swarm activates permanently. You cannot pull a single Swarm Runner off the pack.
+
+Design intent: no "snipe from outside the aggro ring" cheese. Ranged builds still have an advantage — but they pay for it with committed pursuit, not free kills.
+
+### Formation AI (Swarm Coordinator)
+
+Enemies with the `[Pack Tactics]` tag are children of a **Swarm Coordinator** parent node that coordinates their positioning around the player. This is the system that makes group combat feel *authored* rather than *random*.
+
+- The Coordinator owns a **Slot Ring** — 8 positional slots around the player, rotating to match the player's facing so "back" is always behind the player.
+- **Optimal assignment**: each swarm member is assigned the slot that minimizes total swarm movement (greedy + swap-pass refinement).
+- **Sticky assignments**: members only reassign when the formation breaks — a member dies, or the player rotates ~180°. No per-frame churn.
+- **Pack Tactics preference**: weighted scoring favors flank and back slots. Swarms naturally try to get behind the player.
+- **Circling navigation**: if a direct path to an assigned slot crosses the player's front, the swarmer circles around instead of pushing through. Prevents swarms from walking face-first into attacks.
+- **Spacing**: enemy-enemy collision is disabled for Swarm members. The Slot Ring handles spacing.
+- **Persistence**: the Coordinator persists while any child is alive. A `persist_when_empty` flag enables future **commander patterns** (a necromancer who summons more minions, for example) — out of scope for the demo.
+
+**Design signature**: players feel **intentionally surrounded** rather than randomly mobbed. The rotating ring is a recognizable visual and mechanical pattern — "that's a swarm, they're trying to get behind me."
+
+The Slot Ring is distinct from the generic Angle Slot system in Combat Fundamentals:
+- **Angle Slot** is a universal positioning rule preventing any enemies from clumping on the player
+- **Slot Ring** is a Swarm Coordinator's authoritative formation with rotation-matching, optimal assignment, and circling navigation
 
 ---
 
@@ -72,16 +99,29 @@ Five archetypes for the initial demo floor. Each teaches one core mechanic throu
 
 ---
 
-#### 3. Darter (Ranged)
+#### 3. Darter (Ranged Skirmisher)
 **Behaviour Tag**: `[Skirmisher]`
-**Appears as**: small, fast enemy that circles at range. The first ranged archetype the player encounters.
-**Visual tell**: crouched movement, maintains ~120px preferred distance. Retreats after attacking. No wind-up telegraph — fires projectiles without the 0.5s flash that melee enemies use.
+**Appears as**: small, fast enemy wielding a bow. Circles at range, kites the player.
+**Visual tell**: crouched stance during Draw, arrow visibly nocked. The Draw itself IS the telegraph — no separate wind-up. Movement retreats away from the player after firing.
 
-**What it teaches**: Dodge timing over Block when projectiles have no telegraph. The Darter fires projectiles at 0.75s cooldown (half normal enemy attack speed). Projectiles are blockable (costs Composure) and parryable (refunds Composure, no enemy stagger). The player needs to read the positional cue (Darter stops retreating and faces the player) and Dodge before the shot, not during it.
+**What it teaches**: positional pressure management under a charging threat. The Darter uses the [Ranged Attacks](09-combat-system.md#ranged-attacks) system — so a fully drawn Sniper Shot hurts, and the Darter always wants full draw. The player must read the Draw state and choose: close distance to force a Panic Shot (low damage, but also cheap for the Darter) or stay back and eat the Sniper Shot.
 
-**The mechanic to discover**: the positional tell and the ranged pressure pattern. Players who try to Block every projectile drain Composure quickly. Players who close distance force the Darter to retreat, creating windows to attack. Players who learn to Parry projectiles can sustain Composure at range.
+**AI loop:**
+1. **Chase** to `attack_range` (300px)
+2. **At range** → begin Draw
+3. **During Draw**:
+   - Player enters **Safe Zone** (150px) → panic-fire immediately, retreat
+   - Fully charged → fire Sniper Shot at full damage, retreat
+4. **Retreat** run: `min_retreat` (75px) to `max_retreat` (150px).
+   - After min, stop if player is outside Safe Zone
+   - After max, always stop
+5. Re-engage, repeat
 
-**Masked Behaviour Tag**: `[Third Strike Grab]` — every third consecutive attack is a grab that cannot be Blocked or Dodged, only Parried. First trigger reveals the tag. Teaches pattern-counting alongside projectile-reading.
+Per-archetype tunables: `attack_range`, `safe_zone`, `min_retreat`, `max_retreat`, `attack_cooldown`, `draw_duration`.
+
+**Design signature**: if the player chases, the Darter fires Panic Shots while kiting — low damage but high pressure. If the player stands off, the Darter snipes at full charge. Natural tension between closing distance and managing positioning. Arrows remain blockable (costs Composure) and parryable (refunds Composure, no enemy stagger).
+
+**Masked Behaviour Tag**: `[Third Strike Grab]` — every third consecutive fired shot is a grab that cannot be Blocked or Dodged, only Parried. First trigger reveals the tag. Teaches pattern-counting alongside Draw-reading.
 
 **Encounter position**: third. Introduces Dodge as the correct answer and ranged pressure after the Slugger established Block as expensive.
 

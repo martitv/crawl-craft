@@ -1,7 +1,7 @@
 # Crawl Craft — Ubiquitous Language
 
 *Canonical terminology. Use these exact terms in all design docs, PRDs, and code.*
-*Last updated: 2026-04-04*
+*Last updated: 2026-04-18*
 
 ---
 
@@ -188,9 +188,23 @@
 | **Block Arc** | The 120° frontal cone (centred on Facing Direction) within which Block is active. Attacks from outside this arc bypass Block entirely. Visual: persistent blue curved line while holding RMB. | Block zone, Shield arc |
 | **Parry Bonus Lunge** | After a successful Parry, the next attack gets 2× weapon lunge distance (capped at distance to cursor). Rewards aggressive follow-up after a clean defensive read. | Parry lunge, Counter lunge |
 | **Wind-up Telegraph** | A 0.5s yellow flash on melee enemies before their attack lands. Universal across all melee archetypes. Gives the player time to Block/Parry. Ranged enemies (Skirmisher) have no wind-up. | Telegraph, Attack warning |
-| **Projectile** | A ranged attack fired by Skirmisher enemies. Travels toward the player. Blockable (costs Composure) and Parryable (refunds Composure, no enemy stagger). | Bullet, Ranged attack |
+| **Projectile** | A ranged attack travelling through space. Fired by ranged weapons (player or enemy). Blockable (costs Composure) and Parryable (refunds Composure, no enemy stagger). | Bullet |
+| **Ranged Attack** | Any attack that uses the Draw/Charge/Release model. Fires a Projectile on release. Core model for bows and future ranged weapons. | Ranged shot, Missile attack |
+| **Draw** | The charging state of a ranged weapon between press-to-attack and release-to-fire. During Draw, the arrow is visibly nocked and tracks Facing Direction. Acts as the Wind-up Telegraph for ranged enemies. | Nock, Pull, Aim |
+| **Bow Charge** | The 0→1 value that accumulates during Draw. Scales fired Projectile damage via `lerp(0.25, 2.0, charge) × base_damage`. Peaks at full Draw Duration. | Charge, Draw progress |
+| **Draw Duration** | The time from press-to-attack to full Bow Charge. Per-weapon tunable (bow base: 2s). | Charge time |
+| **Panic Shot** | A Ranged Attack released at low Bow Charge. Fast turnaround, floor damage (25%). The "break contact" shot when the player closes distance. | Quick shot |
+| **Sniper Shot** | A Ranged Attack released at full Bow Charge. Slow commitment, peak damage (200%). The "reward for holding" shot. | Full draw, Charged shot |
 | **Activation Range** | The distance (200px) at which enemies transition from idle to active. Enemies outside this range do not attack or pursue. | Aggro range, Detection range |
-| **Angle Slot** | One of 8 positional slots around the player that enemies claim to prevent clumping. Each enemy occupies a unique slot. Pack Tactics enemies prefer back-angle slots for flanking. | Position slot, Formation slot |
+| **Angle Slot** | One of 8 positional slots around the player that any enemies claim to prevent clumping. Generic spacing rule — distinct from a Swarm's Slot Ring. | Position slot |
+| **Pursuit State** | The 5-second chase state entered by any enemy on taking damage. Bypasses Activation Range. Timer resets on each new hit. Expires → idle if player still out of range. | Aggro timer, Chase mode |
+| **Chase-on-Hit** | The universal rule that triggers Pursuit State on any enemy taking damage. Closes the "snipe from outside aggro range" cheese. Applies regardless of archetype. | Aggro on damage |
+| **Swarm** | A group of enemies coordinated by a Swarm Coordinator. Typically `[Pack Tactics]` enemies. Shares formation, aggro, and death cleanup. | Pack, Group |
+| **Swarm Coordinator** | The parent node managing a Swarm's Slot Ring, optimal assignment, and aggro propagation. Reusable infrastructure — `persist_when_empty` flag enables future commander patterns (e.g. necromancer). | Pack leader, Group node |
+| **Slot Ring** | The 8-slot rotating formation managed by a Swarm Coordinator. Rotates to match target facing so "back" stays behind the player. Distinct from the generic Angle Slot system — the Slot Ring includes optimal assignment, sticky reassignment, Pack Tactics flank preference, and circling navigation. | Formation ring |
+| **Swarm Aggro Pull** | The rule that full-activates an entire Swarm when any member detects the player or takes damage. Prevents solo-pulling a single Swarm member. | Pack aggro |
+| **Safe Zone** | The per-archetype distance threshold at which a ranged enemy panic-fires during Draw. When the player enters the Safe Zone mid-Draw, the enemy releases a Panic Shot and retreats. | Comfort distance, Kite range |
+| **Commander Pattern** | Reusable infrastructure for enemies that spawn and persist their own Swarm (necromancers, summoners). Enabled by `persist_when_empty` on a Swarm Coordinator. Out of scope for the demo — groundwork only. | Summoner pattern |
 
 ---
 
@@ -263,6 +277,12 @@
 - **Angle Slots** prevent enemy clumping; **Pack Tactics** enemies prefer back-angle slots for flanking
 - **Wind-up Telegraph** (0.5s flash) is universal for melee enemies; **Skirmisher** (ranged) enemies have no wind-up
 - **Projectiles** are blockable (costs Composure) and parryable (refunds Composure) — same defensive model as melee
+- **Ranged Attacks** use a **Draw** → **Bow Charge** → release pipeline; damage scales `lerp(0.25, 2.0, charge) × base_damage` from **Panic Shot** floor to **Sniper Shot** peak
+- **Draw** replaces the Wind-up Telegraph for ranged enemies — the nocked arrow IS the telegraph
+- **Chase-on-Hit** puts any enemy into **Pursuit State** on damage; **Swarm Aggro Pull** full-activates a whole **Swarm** when any member is hit or detects the player
+- A **Swarm Coordinator** owns a **Slot Ring** (authoritative formation with rotation-matching + optimal assignment) — distinct from the generic **Angle Slot** spacing rule that applies to all enemies
+- **Safe Zone** is the per-ranged-archetype distance threshold that triggers **Panic Shot** + retreat when the player closes in during Draw
+- A **Swarm Coordinator** with `persist_when_empty` is the foundation for the **Commander Pattern** — out of scope for the demo
 - **Curses** are player-facing (applied to the **Contestant**); **Debuffs** are enemy-facing — never conflate
 - A **Quest** can have zero or more **Attached Challenges**; a **Narrative Branch** is a subtype of **Attached Challenge**
 - A **Sponsor Challenge** is a **Challenge** with "Sponsor" as its **Source Field** — same mechanic, different origin
