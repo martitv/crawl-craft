@@ -31,9 +31,11 @@ Wait for their answer before proceeding.
 Conduct a relentless design interview until you reach shared understanding. Systematically explore the decision tree — do not stop until all major branches are resolved or explicitly deferred.
 
 **Rules:**
+- Ask questions as plain text in your response. **Do NOT use the AskUserQuestion tool** — this should feel like a conversation, not a form.
 - Ask **one question at a time**. Never stack questions.
 - Always provide a **recommended answer** with brief rationale before waiting for the user's response. Make them react, not invent from scratch.
-- After each answer, either ask the next question or surface a new branch that the answer opened up.
+- After the user answers, resolve any follow-up branches that answer opened up **before moving on to a new top-level question**. A follow-up counts as the same question thread.
+- Only move to the next top-level question once the current one and every follow-up it spawned are fully resolved.
 - Keep going until the user says they're done or all design decisions resolve.
 
 **Question types to cycle through:**
